@@ -46,7 +46,7 @@ import "strings"
 // 
 // NOTE: since µ() returns []interface{}, you will need Type Assertion to get the actual value.
 //
-// Executable code below.
+// Execute the code below on Go Playground - http://play.golang.org/p/IwqmoKwVm-
 
 func µ(a ...interface{}) []interface{} {
 	return a
