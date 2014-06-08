@@ -29,5 +29,6 @@ func main() {
 	http.HandleFunc("/call", func (rsp http.ResponseWriter, req *http.Request){
 		fmt.Fprint(rsp, "What do you mean, you called me!")
 	})
+	fmt.Println ("Server started on 4000")
 	http.ListenAndServe("localhost:4000",nil)
 }
