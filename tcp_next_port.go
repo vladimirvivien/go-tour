@@ -12,7 +12,7 @@ func main() {
 }
 
 func nextAvailPort() string {
-    l, _ := net.Listen("tcp", ":0")
+    l, _ := net.Listen("tcp4", ":0")
     defer l.Close()
     addr := l.Addr().String() 
     return addr[strings.LastIndex(addr, ":")+1:]
