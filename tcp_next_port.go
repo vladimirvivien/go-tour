@@ -4,6 +4,7 @@ import (
     "net"
     "fmt"
     "strings"
+    "strconv"
 )
 
 func main() {
@@ -11,9 +12,11 @@ func main() {
     fmt.Println ("Another available port:", nextAvailPort())
 }
 
-func nextAvailPort() string {
+func nextAvailPort() int {
     l, _ := net.Listen("tcp4", ":0")
     defer l.Close()
     addr := l.Addr().String() 
-    return addr[strings.LastIndex(addr, ":")+1:]
+    port, _ := strconv.Atoi(addr[strings.LastIndex(addr, ":")+1:])
+    return port
 }
+
