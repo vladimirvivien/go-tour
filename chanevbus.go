@@ -3,44 +3,47 @@ package main
 import "fmt"
 import "time"
 
-type A struct {
-	name   string
-	respCh chan string
+var evCh chan *Act
+var blockCh chan struct{}
+
+type Act struct {
+	name  string
+	param interface{}
 }
 
-var evBus chan *A
+func main() {
+	evCh = make(chan *Act, 1024)
+	go evLoop()
+	blockCh = make(chan struct{})
+	fmt.Println("Starting...")
+	go Action("W")
 
-func loop() {
+	time.Sleep(time.Millisecond * 1000)
+	close(blockCh)
+	time.Sleep(time.Millisecond * 1000)
+
+}
+
+func evLoop() {
+	fmt.Println("Starting ev Loop")
 	for {
 		select {
-		case a := <-evBus:
-			rsp := handleEv(a)
-			fmt.Println("Got Resp", rsp)
-			a.respCh <- rsp
-		default:
+		case a := <-evCh:
+			invoke(a)
 		}
 	}
 }
 
-func main() {
-	evBus = make(chan *A, 1)
-	go loop()
-	for i := 65; i <= 90; i++ {
-		Action(string(i))
-		time.Sleep(time.Millisecond * 10)
-	}
-	time.Sleep(time.Millisecond * 100)
+func Action(s string) {
+	ch := make(chan struct{})
+	evCh <- &Act{name: s, param: ch}
+	<-ch
+	fmt.Println("Finished Action ...")
 }
 
-func Action(a string) {
-	act := &A{name: a, respCh: make(chan string)}
-	evBus <- act
-	fmt.Println("Waiting for response")
-	rsp := <-act.respCh
-	fmt.Println("Response", rsp)
-}
-
-func handleEv(a *A) string {
-	fmt.Println("Got Action", a)
-	return a.name + "_" + a.name
+func invoke(a *Act) {
+	ch := a.param.(chan struct{})
+	time.Sleep(time.Millisecond * 200)
+	<-blockCh
+	close(ch)
 }
