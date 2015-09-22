@@ -1,11 +1,14 @@
 package main
 
-import ("fmt"; "time")
+import (
+	"fmt"
+	"time"
+)
 
-func sayGreetingManyTimes(s string, count int)  {
+func sayGreetingManyTimes(s string, count int) {
 	for i := 0; i < count; i++ {
 		time.Sleep(1 * time.Millisecond)
-		fmt.Println (s)
+		fmt.Println(s)
 	}
 }
 

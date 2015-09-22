@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt";
+	"fmt"
 	"net/http"
 )
 
@@ -13,10 +13,10 @@ func (s String) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 type Greeting struct {
 	Greeting string
-	Who string
+	Who      string
 }
 
-func (g Greeting) ServeHTTP(rsp http.ResponseWriter, req *http.Request){
+func (g Greeting) ServeHTTP(rsp http.ResponseWriter, req *http.Request) {
 	str := fmt.Sprintf("Sending warm %v to %v", g.Greeting, g.Who)
 	fmt.Fprint(rsp, str)
 }
@@ -26,9 +26,9 @@ func main() {
 	http.Handle("/greeting", Greeting{"Hello", "Vladimir"})
 
 	// in-line handler registration
-	http.HandleFunc("/call", func (rsp http.ResponseWriter, req *http.Request){
+	http.HandleFunc("/call", func(rsp http.ResponseWriter, req *http.Request) {
 		fmt.Fprint(rsp, "What do you mean, you called me!")
 	})
-	fmt.Println ("Server started on 4000")
-	http.ListenAndServe("localhost:4000",nil)
+	fmt.Println("Server started on 4000")
+	http.ListenAndServe("localhost:4000", nil)
 }

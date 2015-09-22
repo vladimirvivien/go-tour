@@ -17,7 +17,7 @@ type Statuses struct {
 	FileStatuses FileStatuses
 }
 
-const data =`
+const data = `
 {
 	"FileStatuses":{
 		"FileStatus":[

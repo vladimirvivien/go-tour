@@ -12,25 +12,25 @@ var d, e, f int
 var (
 	k rune = 1234
 	l int  = 122
-	     m = false
+	m      = false
 )
 
 // constants
 const str = "This will never change"
 
 func main() {
-	fmt.Println (a, b, c)
-	fmt.Println ("Other values ")
+	fmt.Println(a, b, c)
+	fmt.Println("Other values ")
 
 	d, e, f = 10, 12, 44
-	fmt.Println (d, e, f)
+	fmt.Println(d, e, f)
 
 	// dec shortcut allowed here
 	g, h := "Mars", "Rover"
-	fmt.Println (g, h)
+	fmt.Println(g, h)
 
 	// print dec block
 	fmt.Println(k, l, m)
 
-	fmt.Println (str)
+	fmt.Println(str)
 }
