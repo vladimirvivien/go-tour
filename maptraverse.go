@@ -32,7 +32,7 @@ func (t tree) graph(key node, value interface{}) {
 		t[key] = value
 		return
 	}
-	
+
 	// update existing val
 	switch val := found.(type) {
 	case map[node]interface{}:
@@ -45,7 +45,7 @@ func (t tree) graph(key node, value interface{}) {
 		}
 
 	default:
-	fmt.Println("Value not found, inserting", key, value)
+		fmt.Println("Value not found, inserting", key, value)
 		val = value
 	}
 
@@ -63,8 +63,8 @@ func main() {
 		},
 	}
 	tree(t).graph(node{"AA"}, "Simplee")
-	tree(t).graph(node{"D"}, map[node]interface{}{node{"H"}: 100, node{"I"}:map[node]interface{}{node{"K"}:90}})
-	tree(t).graph(node{"AA"}, map[node]interface{}{node{"S"}:"Simplified"})
+	tree(t).graph(node{"D"}, map[node]interface{}{node{"H"}: 100, node{"I"}: map[node]interface{}{node{"K"}: 90}})
+	tree(t).graph(node{"AA"}, map[node]interface{}{node{"S"}: "Simplified"})
 	//fmt.Println(search(node{"D"}, t))
 	fmt.Println(t)
 }

@@ -7,15 +7,23 @@ type node struct {
 	nodes []*node
 }
 
+func (n *node) String() string {
+	return fmt.Sprintf("%v -> %v", n.data, n.nodes)
+}
+
 type tree []*node
 
-
+// search for one match and stops
 func search(key *node, root tree) *node {
-	fmt.Println("Searching tree:", root)
+	// width search at root level first
 	for _, n := range root {
 		if key.data == n.data {
 			return n
 		}
+	}
+
+	// depth search
+	for _, n := range root {
 		if n.nodes != nil {
 			return search(key, n.nodes)
 		}
@@ -24,23 +32,18 @@ func search(key *node, root tree) *node {
 	return nil
 }
 
-func (t tree) graph(n *node) {
-	fmt.Println("Graphing", n)
+func graph(t tree, n *node) tree {
 	found := search(n, t)
 	if found != nil {
-		fmt.Println("Graphed node exists, update")
 		found = n
-		return
+		return t
 	}
-	fmt.Println("Graph node not found, adding")
-	fmt.Println("tree before graph", t)
-	var k []*node = append(t, n)
-	t = k
-	fmt.Println("tree after graph", t)
+	t = append(t, n)
+	return t
 }
 
 func main() {
-var	t tree = []*node{
+	var t tree = []*node{
 		&node{
 			"A",
 			[]*node{
@@ -52,8 +55,6 @@ var	t tree = []*node{
 	}
 
 	fmt.Println("Search for node{D, nil}", search(&node{"D", nil}, t))
-	fmt.Println("Search for node{F, nil}", search(&node{"F", nil}, t))
-	t.graph(&node{"F", nil})
-	fmt.Println(t)
+	t = graph(t, &node{"F", nil})
 	fmt.Println("Search for node{F, nil}", search(&node{"F", nil}, t))
 }
