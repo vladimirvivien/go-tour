@@ -1,26 +1,29 @@
 package main
 
-import ("fmt"; "time")
+import (
+	"fmt"
+	"time"
+)
 
 type Work struct {
 	Job string
-	Do func ()  
+	Do  func()
 }
 
 func makeWorkQ(size int) chan Work {
-    return make (chan Work, size)
+	return make(chan Work, size)
 }
 
-func main (){
+func main() {
 	workQ := makeWorkQ(5)
 
 	// send work
-	go func () {
+	go func() {
 		for i := 0; i < 4; i++ {
 			w := Work{
-				Job:"Print Greeting",
-				Do:func () {
-					fmt.Println ("Hello, it's ", time.Now())
+				Job: "Print Greeting",
+				Do: func() {
+					fmt.Println("Hello, it's ", time.Now())
 				},
 			}
 

@@ -11,22 +11,21 @@ import "fmt"
 // it uses the function closer as well as the recursive implementation of fibonacci.
 
 func fibonacci() func(i int) int {
-    
-    return func(i int) int { 
-        if i <= 1 {
-        	return i
-        }else{
-            // fibonacci() returns a functiona that returns the closure we need.
-            return fibonacci() (i - 1) + fibonacci() (i - 2)
-        }
-    }
-    
+
+	return func(i int) int {
+		if i <= 1 {
+			return i
+		} else {
+			// fibonacci() returns a functiona that returns the closure we need.
+			return fibonacci()(i-1) + fibonacci()(i-2)
+		}
+	}
+
 }
 
 func main() {
-    f := fibonacci()
-    for i := 0; i < 100; i++ {
-        fmt.Println(f(i))
-    }
+	f := fibonacci()
+	for i := 0; i < 100; i++ {
+		fmt.Println(f(i))
+	}
 }
-

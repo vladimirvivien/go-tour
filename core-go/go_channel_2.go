@@ -1,10 +1,13 @@
 package main
 
-import ("fmt"; "time")
+import (
+	"fmt"
+	"time"
+)
 
 type Work struct {
 	Job string
-	Do func ()  
+	Do  func()
 }
 
 const (
@@ -13,44 +16,43 @@ const (
 )
 
 func makeWorkQ(size int) chan Work {
-    return make (chan Work, size)
+	return make(chan Work, size)
 }
 
-
-func doWork (workQ chan Work, ctrl chan int) {
+func doWork(workQ chan Work, ctrl chan int) {
 	for {
 		select {
-			case w := <- workQ :
-				fmt.Println("Executing job ", w.Job)
-				w.Do()
-			case i := <- ctrl:
-				if i == CTLR_QUIT{
-					close(workQ)
-					return
-				}
+		case w := <-workQ:
+			fmt.Println("Executing job ", w.Job)
+			w.Do()
+		case i := <-ctrl:
+			if i == CTLR_QUIT {
+				close(workQ)
+				return
+			}
 		}
 	}
 }
 
-func main (){
+func main() {
 	workQ := makeWorkQ(5)
-	ctrl  := make(chan int)
+	ctrl := make(chan int)
 
 	// send work
 
-	go func () {
+	go func() {
 		for i := 0; i < 4; i++ {
 			w := Work{
-				Job:"Print Greeting",
-				Do:func () {
-					fmt.Println ("Hello, it's ", time.Now())
+				Job: "Print Greeting",
+				Do: func() {
+					fmt.Println("Hello, it's ", time.Now())
 				},
 			}
 			workQ <- w
 		}
-		ctrl <- CTLR_QUIT	
+		ctrl <- CTLR_QUIT
 	}()
-	
+
 	// do some work
 	go doWork(workQ, ctrl)
 }
