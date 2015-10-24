@@ -6,9 +6,12 @@ import (
 )
 
 func main() {
-	ln, err := net.Listen("tcp4", net.JoinHostPort("", ""))
+	addr := net.JoinHostPort("0.0.0.0","0")
+	fmt.Println ("About to listen on ", addr)
+	ln, err := net.Listen("tcp4", addr)
 	if err != nil {
 		fmt.Println("Error, listening: ", err)
+		return
 	}
 
 	fmt.Println("Listening ", ln.Addr().String())
