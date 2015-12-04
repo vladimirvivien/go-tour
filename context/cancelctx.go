@@ -21,13 +21,13 @@ func main() {
 	// the longer the time window, the more work gets done
 	// before cancel() is called.
 	select {
-	case <-time.After(500 * time.Millisecond):
+	case <-time.After(5 * time.Millisecond):
 		fmt.Println("Work too long... cancelling")
 		cancel() // cancel downstream
 		fmt.Println("Calculated ", <-result)
 
 	case <-ctx.Done():
-		fmt.Println("Work cancelled...")
+		fmt.Println("Work was cancelled...")
 	case val := <-result:
 		fmt.Println("Work completed with value ", val)
 	}
